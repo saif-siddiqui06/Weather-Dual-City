@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    
+    <!-- Add Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- Add any additional CSS or external libraries here -->
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #1a2980, #26d0ce);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-top: 20px;
+            text-align: center;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        form {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        label {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            color: #444;
+        }
+
+        input {
+            padding: 10px;
+            margin-bottom: 20px;
+            width: 100%;
+            font-size: 1em;
+            box-sizing: border-box;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #1E90FF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            width: 100%;
+            box-sizing: border-box;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #4169E1;
+            transform: translateY(-2px);
+        }
+
+        .weather-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .weather-card {
+            margin: 10px;
+            padding: 20px;
+            border-radius: 10px;
+            background: linear-gradient(to bottom right, #ffffff, #f0f0f0);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .weather-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .weather-card h2 {
+            margin-top: 0;
+            font-size: 1.5em;
+            color: #333;
+            text-align: center;
+        }
+
+        .weather-card p {
+            margin: 10px 0;
+            text-align: center;
+            color: #666;
+        }
+
+        .weather-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+            color: #1E90FF;
+        }
+
+        .message {
+            color: red;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1><i class="fas fa-cloud-sun"></i> Weather App</h1>
+    
+    <form method="post" action="">
+        {% csrf_token %}
+        <label for="city1" class="city"><i class="fas fa-city"></i> Enter City 1:</label>
+        <input type="text" name="city1" id="city1" required>
+        
+        <label for="city2" class="city"><i class="fas fa-city"></i> Enter City 2:</label>
+        <input type="text" name="city2" id="city2" required>
+        
+        <button type="submit"><i class="fas fa-search"></i> Search</button>
+    </form>
+
+    <div class="weather-container">
+        {% if weather %}
+        <div class="weather-card">
+            <h2>Weather in {{ weather.city }}</h2>
+            <p><i class="fas fa-thermometer-half weather-icon"></i> Temperature: {{ weather.temperature }}° C</p>
+            <p><i class="fas fa-thermometer-half weather-icon"></i> Temperature: {{ weather.Feellikes }}° C</p>
+
+            <p><i class="fas fa-cloud weather-icon"></i> Condition: {{ weather.description }}</p>
+            <p><i class="fas fa-tint weather-icon"></i> Humidity: {{ weather.humidity }}</p>
+            <p><i class="fas fa-tint weather-icon"></i> Pressure: {{ weather.pressure }}</p>
+            <p><i class="fas fa-wind weather-icon"></i> Wind: {{ weather.wind }}</p>
+            <img src="{{ weather.icon }}" alt="Weather icon">
+        </div>
+        {% elif error_message %}
+            <p class="message">{{ error_message }}</p>
+        {% endif %}
+
+        {% if weather2 %}
+        <div class="weather-card">
+            <h2>Weather in {{ weather2.city }}</h2>
+            <p><i class="fas fa-thermometer-half weather-icon"></i> Temperature: {{ weather2.temperature }}° C</p>
+            <p><i class="fas fa-thermometer-half weather-icon"></i> Temperature: {{ weather2.Feellikes }}° C</p>
+            <p><i class="fas fa-cloud weather-icon"></i> Condition: {{ weather2.description }}</p>
+            <p><i class="fas fa-tint weather-icon"></i> Humidity: {{ weather2.humidity }}</p>
+            <p><i class="fas fa-tint weather-icon"></i> Pressure: {{ weather2.pressure }}</p>
+
+            <p><i class="fas fa-wind weather-icon"></i> Wind: {{ weather2.wind }}</p>
+            <img src="{{ weather2.icon }}" alt="Weather icon">
+        </div>
+        {% elif error_message %}
+            <p class="message">{{ error_message }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>
